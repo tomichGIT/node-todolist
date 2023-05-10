@@ -1,0 +1,340 @@
+
+<!-- Instrucciones:
+Frontend (HTML, CSS y JavaScript):
+- a. Crear un archivo HTML con un formulario para añadir nuevas tareas y una lista para mostrar las tareas
+existentes.
+- b. Estilizar la aplicación usando CSS.
+- c. Utilizar JavaScript para capturar el evento de envío del formulario y para manipular el DOM.
+- Utilizar una clase para gestionar las tareas.
+ -->
+ <!DOCTYPE html>
+
+ <html data-theme="halloween">
+     <head>
+         <title>proyecto TODOs</title>
+         <meta charset="UTF-8"/>
+         <link rel="stylesheet" href="style.css">
+         <link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.6/dist/full.css" rel="stylesheet" type="text/css" />
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+
+    <body cla2ss="bg-base-100">
+
+      <div class="min-h-screen flex flex-col justify-center items-center">
+    
+        <!-- Theme swapper -->
+        <label class="swap swap-rotate fixed right-5 top-5 z-50">
+          <input type="checkbox" id="btn_theme" />
+          <i class="swap-on fa-regular fa-sun"></i>
+          <i class="swap-off fa-regular fa-moon"></i>
+        </label>
+    
+        <div class="w-full max-w-md p-4 rounded-lg shadow shadow-lg -mt-2" style="--tw-shadow: 0 1px 10px 3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);">
+    
+          <h1 class="text-xl text-center mb-4">Formulario</h1>
+    
+          <form id="formulario" class="mb-4">
+            <label for="tarea"></label>
+            <input type="text" name="txt_tarea" placeholder="Nueva tarea.." class="input w-full mb-2 input-bordered input-primary">
+            <button id="btn_enviar" class="btn w-full" data-id="0">Nueva</button>
+          </form>
+    
+          <div class="divider"></div>
+    
+          <h1 class="text-xl text-center mt-4">Lista de Tareas</h1>
+    
+          <div id="listaTareas"></div>
+    
+        </div>
+    
+      </div>
+    
+    </body>
+
+      <!-- <div class="flex flex-col w-full border-opacity-50">
+        <div class="grid h-20 card bg-base-300 rounded-box place-items-center">content</div>
+        <div class="divider">OR</div>
+        <div class="grid h-20 card bg-base-300 rounded-box place-items-center">content</div>
+      </div>
+
+      <div class="mockup-code bg-primary text-primary-content">
+        <pre><code>can be any color!</code></pre>
+      </div> -->
+
+      <!-- <div class="card w-96 bg-base-100 shadow-xl">
+        <div class="card-body">
+          <div class="card-actions justify-end">
+            <button data-id='${item.id}' class="eliminar btn btn-square btn-sm btn-error">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <button data-id='${item.id}' class="editar btn btn-square  btn-sm btn-info">
+                <i class="fa-regular fa-pen-to-square"></i>
+            </button>
+          </div>
+          <p>${item.tarea}</p>
+        </div>
+      </div> -->
+
+      <!-- <section>
+        <header class="space-y-4 p-4 sm:px-8 sm:py-6 lg:p-4 xl:px-8 xl:py-6">
+          <div class="flex items-center justify-between">
+            <h2 class="font-semibold text-slate-900">Projects</h2>
+            <a href="/new" class="hover:bg-blue-400 group flex items-center rounded-md bg-blue-500 text-white text-sm font-medium pl-2 pr-3 py-2 shadow-sm">
+              <svg width="20" height="20" fill="currentColor" class="mr-2" aria-hidden="true">
+                <path d="M10 5a1 1 0 0 1 1 1v3h3a1 1 0 1 1 0 2h-3v3a1 1 0 1 1-2 0v-3H6a1 1 0 1 1 0-2h3V6a1 1 0 0 1 1-1Z" />
+              </svg>
+              New
+            </a>
+          </div>
+          <form class="group relative">
+            <svg width="20" height="20" fill="currentColor" class="absolute left-3 top-1/2 -mt-2.5 text-slate-400 pointer-events-none group-focus-within:text-blue-500" aria-hidden="true">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" />
+            </svg>
+            <input class="focus:ring-2 focus:ring-blue-500 focus:outline-none appearance-none w-full text-sm leading-6 text-slate-900 placeholder-slate-400 rounded-md py-2 pl-10 ring-1 ring-slate-200 shadow-sm" type="text" aria-label="Filter projects" placeholder="Filter projects...">
+          </form>
+        </header>
+        <ul class="bg-slate-50 p-4 sm:px-8 sm:pt-6 sm:pb-8 lg:p-4 xl:px-8 xl:pt-6 xl:pb-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-4 text-sm leading-6">
+          <li x-for="project in projects">
+            <a :href="project.url" class="hover:bg-blue-500 hover:ring-blue-500 hover:shadow-md group rounded-md p-3 bg-white ring-1 ring-slate-200 shadow-sm">
+              <dl class="grid sm:block lg:grid xl:block grid-cols-2 grid-rows-2 items-center">
+                <div>
+                  <dt class="sr-only">Title</dt>
+                  <dd class="group-hover:text-white font-semibold text-slate-900">
+                    {project.title}
+                  </dd>
+                </div>
+                <div>
+                  <dt class="sr-only">Category</dt>
+                  <dd class="group-hover:text-blue-200">{project.category}</dd>
+                </div>
+                <div class="col-start-2 row-start-1 row-end-3 sm:mt-4 lg:mt-0 xl:mt-4">
+                  <dt class="sr-only">Users</dt>
+                  <dd x-for="user in project.users" class="flex justify-end sm:justify-start lg:justify-end xl:justify-start -space-x-1.5">
+                    <img :src="user.avatar" :alt="user.name" class="w-6 h-6 rounded-full bg-slate-100 ring-2 ring-white" loading="lazy">
+                  </dd>
+                </div>
+              </dl>
+            </a>
+          </li>
+          <li class="flex">
+            <a href="/new" class="hover:border-blue-500 hover:border-solid hover:bg-white hover:text-blue-500 group w-full flex flex-col items-center justify-center rounded-md border-2 border-dashed border-slate-300 text-sm leading-6 text-slate-900 font-medium py-3">
+              <svg class="group-hover:text-blue-500 mb-1 text-slate-400" width="20" height="20" fill="currentColor" aria-hidden="true">
+                <path d="M10 5a1 1 0 0 1 1 1v3h3a1 1 0 1 1 0 2h-3v3a1 1 0 1 1-2 0v-3H6a1 1 0 1 1 0-2h3V6a1 1 0 0 1 1-1Z" />
+              </svg>
+              New project
+            </a>
+          </li>
+        </ul>
+      </section> -->
+
+
+    <script>
+        const btnGuardar = document.querySelector('#btn_enviar'); // para actualiar el id, y su texto
+        const tareasList = document.querySelector('#listaTareas');
+        const form = document.querySelector('#formulario');
+
+        function getItems(){
+
+          fetch('http://localhost:3000/tareas')
+            .then(response => response.json())
+            .then(tareas => {
+                const Lista = document.createElement('ul');
+                
+                tareasList.innerHTML = '';
+                // uso array porque MySQL probablemente devuelva un array de objetos
+                tareas.forEach(item => {
+                
+                //   for (const key of Object.keys(tareas)) {
+                //     const task = tareas[key];
+                //     // do something with task and key
+                //     console.log(task, key);
+                //   }
+
+                // // si es objeto
+                // Object.values(tareas).forEach( (item,id) => {
+                //   //console.log(item, id);
+                    const divCard = document.createElement('div');
+                    divCard.classList.add('card', 'bg-base-100', 'shadow-xl', 'my-2');
+
+                    // Assuming completed is a boolean value indicating if the task is completed
+                    const htmlTarea=(item.tf_completada)?`<span style="text-decoration:line-through">${item.tarea}</span>`:`<span>${item.tarea}</span>`;
+                    // if (item.tf_completada) {
+                    //   const taskElement = document.getElementById('task-1'); // replace with your task element id
+                    //   taskElement.style.textDecoration = 'line-through';
+                    // }
+
+                    // template de tarjeta (se puede usar sistemas mas avanzados como handleBars)
+                    const tpl_card = `<div class="card-body">
+                                        <div class="card-actions justify-end">
+                                            <button data-id='${item.id}' class="completar btn btn-square btn-sm btn-success">
+                                                <i class="fa-solid fa-check"></i>
+                                            </button>
+                                            <button data-id='${item.id}' class="eliminar btn btn-square btn-sm btn-error">
+                                                <i class="fa-solid fa-xmark"></i>
+                                            </button>
+                                            <button data-id='${item.id}' class="editar btn btn-square  btn-sm btn-info">
+                                                <i class="fa-regular fa-pen-to-square"></i>
+                                            </button>
+                                        </div>
+                                        <p>${htmlTarea}</p>
+                                    </div>`;
+                    
+                    divCard.innerHTML=tpl_card;  // HTML
+                    //divCard.textContent = tpl_card; // STRING
+                    
+                    // crear un componente DOM y agregarle el STRING es mas seguro (XSS) y tiene mejor performance
+                    // que insertarlo directamente con innerHTML
+                    // Lista.innerHTML += tpl_card; <-- no es seguro ni rápido.
+                    Lista.appendChild(divCard);
+
+                });
+                tareasList.appendChild(Lista);
+                //btnEliminar = document.querySelector('.eliminar');
+            })
+            .catch(error => console.error(error));
+
+        }
+
+        // obtener items por primera vez.
+        getItems();
+        
+        
+        //form.addEventListener('submit', (e) => {
+        //          const formData = new FormData(e.target); // get form data
+
+        btnGuardar.addEventListener('click', (e)=> {
+          e.preventDefault();
+
+          //const id=e.target.dataset.id;
+
+          const formData = new FormData(form);
+          // obtiene todos los datos del formulario
+          const data = Object.fromEntries(formData.entries());
+          //data.id=id;  // lo agrego al formData
+
+          form.reset(); // limpio el formulario
+          
+          fetch(`/tareas`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+          })
+          .then(response => {
+              // Proceso resultados de Status
+
+              const statusCode = response.status;
+              const statusText = response.statusText;
+              console.log(`Status es (${statusCode}) ${statusText}`);
+
+              if (response.status === 400) {
+                return response.text().then(errorMessage => {
+                  throw new Error(errorMessage); // el body lo va a manejar el catchError
+                });
+              }
+
+              return response.text(); // Return the parsed TEXT body
+              //return response.josn(); // Return the parsed JSON response body
+          })
+          .then(data => {
+            console.log("body es:",data); // log the response body
+            getItems(); // refrezco lista de items.
+          })
+          .catch(error => {
+            alert(error);
+            console.error('Tu Error:', error);
+          });
+          
+
+        });
+
+        // btnEliminar.addEventListener('click', (e) => {
+        //     console.log(e.target);
+        // });
+
+        tareasList.addEventListener('click', function(e) {
+            //const id = e.target.getAttribute("data-id"); // para exploradores viejos
+
+            //si hago click sobre el icono, entonces el target es el icono, por eso busco closest para que funcione mejor en vez de "e.target"
+            const clickedElement = e.target.closest('.eliminar, .editar, .completar'); 
+            if (!clickedElement) { return; } // si no encontró un elemento especificado, salgo de la función
+          
+            const id = clickedElement.dataset.id;
+
+            if (clickedElement.classList.contains('eliminar')) {
+                console.log("eliminar:",id); // Do something with the id
+            
+                fetch(`/tareas/${id}`, {
+                  method: 'DELETE',
+                })
+                .then(response => {
+                  // handle response
+                  console.log(response);
+                  getItems();
+                })
+                .catch(error => {
+                  console.error(error);
+                });
+            };
+
+            if (clickedElement.classList.contains('completar')) {
+                // marcar como completada
+                console.log("completar:",id); // Do something with the id
+
+                form.reset(); // limpio el formulario
+                fetch(`/tareas/${id}/completada`, {
+                  method: 'PUT',
+                })
+                .then(response => {
+                  // handle response
+                  console.log(response);
+                  getItems();
+                })
+                .catch(error => {
+                  console.error(error);
+                });
+            }
+            
+            if (clickedElement.classList.contains('editar')) {
+                console.log("editar:",id); // Do something with the id
+
+                const formData = new FormData(form);
+                // obtiene todos los datos del formulario
+                const data = Object.fromEntries(formData.entries());
+                data.id=id;  // lo agrego al formData
+
+                fetch(`/tareas/${id}/editar`, {
+                  method: 'PUT',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(data)
+                })
+                  .then(response => response.text())
+                  .then(data => {
+                    console.log(data);
+                    getItems();
+                  })
+                  .catch(error => console.error(error));
+            }
+
+        });
+
+
+        // theme swapper
+        const themes= ["light", "dark", "cupcake", "bumblebee", "emerald", "corporate", "synthwave", "retro", "cyberpunk", "valentine", "halloween", "garden", "forest", "aqua", "lofi", "pastel", "fantasy", "wireframe", "black", "luxury", "dracula", "cmyk", "autumn", "business", "acid", "lemonade", "night", "coffee", "winter"];
+        const html = document.querySelector('html');
+        const btn_theme = document.getElementById('btn_theme');
+        btn_theme.addEventListener('change', () => {
+            console.log("click en change");
+            // change the theme to a random one from the list
+            //const theme = themes[Math.floor(Math.random() * themes.length)];
+            //html.dataset.theme = theme; 
+            
+            // change the theme of the website between halloween and cupcake
+            const currentTheme = html.dataset.theme;
+            html.dataset.theme = (currentTheme === 'halloween') ? 'light' : 'halloween';
+            
+        });
+    </script>
+    <script src="//localhost:35729/livereload.js?snipver=1" async="" defer=""></script></body>
+ </html>
+
