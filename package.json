@@ -7,7 +7,7 @@
     "start": "node todos.js",
     "dev": "nodemon todos.js --ext *"
   },
-  "author": "Anna Emil",
+  "author": "Author of project",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.2",
