@@ -14,6 +14,9 @@ const path=require("path"); //para trabajar con rutas de archivos
 const livereload = require("livereload"); //para que se actualice el servidor automaticamente
 const connectLivereload = require("connect-livereload"); //para que se actualice el servidor automaticamente
 
+
+
+
 // Lista de tareas opción 1: array simple
 //const tareas = ["Estudiar", "Limpiar", "Comprar"];
 
@@ -35,6 +38,24 @@ const tareas =[
 // live Reload del brower en cambios de código
 const liveReloadServer = livereload.createServer();
 liveReloadServer.watch(path.join(__dirname, 'public'));
+
+
+// Enable CORS for client 5173
+app.use((req, res, next) => {
+    //res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+
+    const allowedOrigins = ['http://localhost:5173', 'http://localhost'];
+    const origin = req.headers.origin;
+    if (allowedOrigins.includes(origin)) { // solo permito los habilitados mas arriba
+        res.setHeader('Access-Control-Allow-Origin', origin);
+    }
+
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    next();
+  });
+
 
 // middleware de liveReload para actualizar el browser cuando hay cambios en el código
 app.use(connectLivereload()); // para que se actualice el servidor automaticamente
