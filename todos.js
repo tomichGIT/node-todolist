@@ -44,7 +44,7 @@ liveReloadServer.watch(path.join(__dirname, 'public'));
 app.use((req, res, next) => {
     //res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173', 'https://todo-rcmq.onrender.com');
 
-    const allowedOrigins = ['http://localhost:5173', 'http://localhost'];
+    const allowedOrigins = ['http://localhost:5173', 'http://localhost', 'https://todo-rcmq.onrender.com'];
     const origin = req.headers.origin;
     if (allowedOrigins.includes(origin)) { // solo permito los habilitados mas arriba
         res.setHeader('Access-Control-Allow-Origin', origin);
