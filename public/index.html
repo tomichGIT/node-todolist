@@ -135,8 +135,8 @@ existentes.
         const form = document.querySelector('#formulario');
 
         function getItems(){
-
-          fetch('http://localhost:3000/tareas')
+          //fetch('http://localhost:3000/tareas')
+          fetch('https://todo-rcmq.onrender.com/tareas')
             .then(response => response.json())
             .then(tareas => {
                 const Lista = document.createElement('ul');
@@ -335,6 +335,7 @@ existentes.
             
         });
     </script>
-    <script src="//localhost:35729/livereload.js?snipver=1" async="" defer=""></script></body>
+ <!--   <script src="//localhost:35729/livereload.js?snipver=1" async="" defer=""></script>-->
+ </body>
  </html>
 
